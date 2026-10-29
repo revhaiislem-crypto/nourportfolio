@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nour Elislam Rebahi | Ingénieur en Génie Civil</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #0f2744;
+      --secondary: #1a3a5c;
+      --gold: #c9a227;
+      --gold-hover: #e0b82e;
+      --light: #f4f7f6;
+      --text: #333;
+    }
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background-color: var(--light); 
+      color: var(--text); 
+      overflow-x: hidden;
+    }
+    
+    /* Animations */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    /* Navbar */
+    .navbar { background-color: var(--primary); padding: 15px 0; transition: 0.3s; }
+    .navbar.scrolled { box-shadow: 0 4px 10px rgba(0,0,0,0.2); padding: 10px 0; }
+    .navbar-brand { color: white !important; font-weight: 700; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+    .nav-link { color: rgba(255,255,255,0.8) !important; font-weight: 500; position: relative; }
+    .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background: var(--gold); transition: 0.3s; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:hover { color: var(--gold) !important; }
+    
+    /* Hero */
+    .hero { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 120px 0 80px; position: relative; }
+    .hero-img { width: 280px; height: 280px; border-radius: 50%; border: 6px solid var(--gold); object-fit: cover; box-shadow: 0 15px 35px rgba(0,0,0,0.4); transition: transform 0.4s; }
+    .hero-img:hover { transform: scale(1.03); }
+    .hero h1 { font-weight: 700; font-size: 2.8rem; margin-bottom: 10px; }
+    .hero .title { color: var(--gold); font-size: 1.3rem; font-weight: 600; letter-spacing: 1px; }
+    .btn-custom-gold { background: var(--gold); color: #111; font-weight: 600; border: none; padding: 12px 30px; border-radius: 30px; transition: 0.3s; }
+    .btn-custom-gold:hover { background: var(--gold-hover); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(201, 162, 39, 0.4); }
+    
+    /* Sections */
+    .section-title { color: var(--primary); font-weight: 700; margin-bottom: 40px; position: relative; display: inline-block; font-size: 2rem; }
+    .section-title::after { content: ''; position: absolute; width: 60%; height: 4px; background: var(--gold); bottom: -12px; left: 0; border-radius: 2px; }
+    
+    /* Cards */
+    .card { border: none; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); transition: transform 0.3s, box-shadow 0.3s; background: white; }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
+    .timeline-card { border-left: 5px solid var(--gold); }
+    .timeline-card h5 { color: var(--primary); }
+    
+    /* Skills */
+    .skill-badge { background: var(--primary); color: white; padding: 10px 20px; border-radius: 30px; display: inline-block; margin: 6px; font-size: 0.95rem; font-weight: 500; transition: 0.3s; }
+    .skill-badge:hover { background: var(--gold); color: #111; transform: scale(1.05); }
+    
+    /* Blog */
+    .blog-img { height: 220px; object-fit: cover; border-radius: 15px 15px 0 0; }
+    
+    /* Admin Panel */
+    .admin-toggle { position: fixed; bottom: 25px; right: 25px; z-index: 1000; background: var(--gold); color: #111; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 1.5rem; box-shadow: 0 5px 20px rgba(0,0,0,0.3); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+    .admin-toggle:hover { transform: scale(1.1) rotate(10deg); }
+    .admin-panel { display: none; position: fixed; top: 0; right: 0; width: 100%; max-width: 450px; height: 100vh; background: white; z-index: 1050; box-shadow: -5px 0 25px rgba(0,0,0,0.15); overflow-y: auto; padding: 30px; }
+    .admin-panel.active { display: block; }
+    .close-admin { position: absolute; top: 15px; right: 15px; font-size: 2rem; cursor: pointer; color: #555; line-height: 1; }
+    .close-admin:hover { color: red; }
+    
+    footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 30px 0; margin-top: 60px; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-hard-hat text-warning"></i> Nour<span style="color:var(--gold)">.</span>Rebahi
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#about">À propos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#experience">Expérience</a></li>
+          <li class="nav-item"><a class="nav-link" href="#formation">Formation</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills">Compétences</a></li>
+          <li class="nav-item"><a class="nav-link" href="#blog">Blog & Projets</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-7 text-center text-md-start reveal">
+          <h1>Nour Elislam Rebahi</h1>
+          <p class="title mb-4"><i class="fas fa-building me-2"></i>Ingénieur en Génie Civil</p>
+          <p class="lead mb-5" style="font-size: 1.1rem; color: #e2e8f0;">Ingénieur en génie civil passionné avec une solide expérience en gestion de projets de construction, maîtrise des normes techniques et souci constant de la qualité et de la sécurité sur les chantiers.</p>
+          <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+            <a href="#contact" class="btn btn-custom-gold"><i class="fas fa-envelope me-2"></i>Me contacter</a>
+            <a href="#experience" class="btn btn-outline-light px-4 py-3 rounded-pill fw-bold">Mon parcours</a>
+          </div>
+        </div>
+        <div class="col-md-5 text-center mt-5 mt-md-0 reveal">
+          <img src="https://via.placeholder.com/250" id="profile-img" alt="Photo de profil" class="hero-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="py-5" id="about">
+    <div class="container py-4">
+      <div class="text-center mb-5 reveal">
+        <h2 class="section-title">Informations Personnelles</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6 reveal">
+          <div class="card p-4 h-100">
+            <h5><i class="fas fa-id-card text-warning me-2"></i> Coordonnées</h5>
+            <hr>
+            <ul class="list-unstyled mt-3">
+              <li class="mb-3"><i class="fas fa-envelope me-3 text-primary"></i> <strong>Email:</strong> <a href="mailto:revhallslem@gmail.com" class="text-decoration-none text-dark">revhallslem@gmail.com</a></li>
+              <li class="mb-3"><i class="fas fa-phone me-3 text-primary"></i> <strong>Tél:</strong> 0662723640</li>
+              <li class="mb-3"><i class="fas fa-map-marker-alt me-3 text-primary"></i> <strong>Adresse:</strong> Rue Ismail Mahdjoub SMK, Constantine</li>
+              <li class="mb-3"><i class="fas fa-calendar-alt me-3 text-primary"></i> <strong>Né le:</strong> 4 Septembre 1993</li>
+              <li class="mb-3"><i class="fas fa-flag me-3 text-primary"></i> <strong>Nationalité:</strong> Algérien</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6 reveal">
+          <div class="card p-4 h-100">
+            <h5><i class="fas fa-user-tie text-warning me-2"></i> À propos de moi</h5>
+            <hr>
+            <p class="text-muted mt-3">Ingénieur civil expérimenté, spécialisé dans la supervision et la gestion de projets de construction. Je possède une solide maîtrise des normes techniques, de la sécurité sur chantier et de la qualité des ouvrages.</p>
+            <p class="text-muted">Fort d'une expérience variée allant des casernes militaires aux centres commerciaux et hôpitaux, je suis capable de diriger des équipes, planifier les travaux et assurer le respect des délais et des budgets.</p>
+            <p class="text-muted mb-0">Actuellement en études doctorales en génie civil à Saint-Pétersbourg, je combine expertise pratique et approche académique approfondie.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="py-5 bg-white" id="experience">
+    <div class="container py-4">
+      <div class="text-center mb-5 reveal">
+        <h2 class="section-title">Expérience Professionnelle</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 reveal">
+          <div class="card timeline-card p-4 h-100">
+            <h5 class="fw-bold"><i class="fas fa-briefcase me-2"></i>Project Manager</h5>
+            <p class="text-warning fw-bold mb-1">Erdogan Construction | 400 log</p>
+            <p class="text-muted small mb-0">Gestion complète du projet, coordination des équipes et respect des délais.</p>
+          </div>
+        </div>
+        <div class="col-md-6 reveal">
+          <div class="card timeline-card p-4 h-100">
+            <h5 class="fw-bold"><i class="fas fa-briefcase me-2"></i>Site Engineer</h5>
+            <p class="text-warning fw-bold mb-1">Cosider Construction | 500 hospital beds</p>
+            <p class="text-muted small mb-0">Supervision des travaux au Pôle 167, G203 à Constantine.</p>
+          </div>
+        </div>
+        <div class="col-md-6 reveal">
+          <div class="card timeline-card p-4 h-100">
+            <h5 class="fw-bold"><i class="fas fa-briefcase me-2"></i>Chef de projet</h5>
+            <p class="text-warning fw-bold mb-1">Fondation Uneri | City Mall</p>
+            <p class="text-muted small mb-0">Planification et suivi de l'exécution du centre commercial.</p>
+          </div>
+        </div>
+        <div class="col-md-6 reveal">
+          <div class="card timeline-card p-4 h-100">
+            <h5 class="fw-bold"><i class="fas fa-briefcase me-2"></i>Superviseur des travaux</h5>
+            <p class="text-warning fw-bold mb-1">35 Casernes militaires No 108 résidences</p>
+            <p class="text-muted small mb-0">Contrôle de la qualité et de la sécurité sur chantier.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formation Section -->
+  <section class="py-5" id="formation">
+    <div class="container py-4">
+      <div class="text-center mb-5 reveal">
+        <h2 class="section-title">Formation</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 reveal">
+          <div class="card p-4 h-100"><h5 class="fw-bold"><i class="fas fa-graduation-cap me-2 text-primary"></i>Études doctorales en génie civil</h5><p class="text-muted small mb-0 mt-2">Université technique de Saint-Pétersbourg</p></div>
+        </div>
+        <div class="col-md-6 reveal">
+          <div class="card p-4 h-100"><h5 class="fw-bold"><i class="fas fa-graduation-cap me-2 text-primary"></i>Master en génie civil (Structures)</h5><p class="text-muted small mb-0 mt-2">Université Frères Mentouri, Constantine</p></div>
+        </div>
+        <div class="col-md-6 reveal">
+          <div class="card p-4 h-100"><h5 class="fw-bold"><i class="fas fa-graduation-cap me-2 text-primary"></i>Licence en travaux publics</h5><p class="text-muted small mb-0 mt-2">Armée</p></div>
+        </div>
+        <div class="col-md-6 reveal">
+          <div class="card p-4 h-100"><h5 class="fw-bold"><i class="fas fa-graduation-cap me-2 text-primary"></i>Licence en génie civil LMD</h5><p class="text-muted small mb-0 mt-2">Université Frères Mentouri 1</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="py-5 bg-white" id="skills">
+    <div class="container py-4 text-center">
+      <div class="mb-5 reveal">
+        <h2 class="section-title d-inline-block">Compétences</h2>
+      </div>
+      <div class="reveal">
+        <span class="skill-badge">Supervision de travaux</span>
+        <span class="skill-badge">Gestion de projet</span>
+        <span class="skill-badge">Gestion de chantier</span>
+        <span class="skill-badge">Lecture de plans</span>
+        <span class="skill-badge">Normes de sécurité</span>
+        <span class="skill-badge">Calculs structureux</span>
+        <span class="skill-badge">Analyse de risques</span>
+        <span class="skill-badge">Gestion d'équipe</span>
+        <span class="skill-badge">Communication</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog & Projects Section (Dynamic) -->
+  <section class="py-5" id="blog">
+    <div class="container py-4">
+      <div class="text-center mb-5 reveal">
+        <h2 class="section-title">Blog & Projets</h2>
+      </div>
+      <div class="row g-4" id="blog-container">
+        <!-- سيتم إضافة المقالات هنا ديناميكياً بواسطة JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="py-5 bg-white" id="contact">
+    <div class="container py-4 text-center">
+      <div class="mb-5 reveal">
+        <h2 class="section-title d-inline-block">Contactez-moi</h2>
+      </div>
+      <div class="row g-4 justify-content-center reveal">
+        <div class="col-md-4">
+          <a href="mailto:revhallslem@gmail.com" class="text-decoration-none">
+            <div class="card p-4 h-100"><i class="fas fa-envelope fa-3x text-warning mb-3"></i><h6 class="text-dark fw-bold">Email</h6><span class="text-muted">revhallslem@gmail.com</span></div>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <div class="card p-4 h-100"><i class="fas fa-phone fa-3x text-warning mb-3"></i><h6 class="text-dark fw-bold">Téléphone</h6><span class="text-muted">0662723640</span></div>
+        </div>
+        <div class="col-md-4">
+          <div class="card p-4 h-100"><i class="fas fa-map-marker-alt fa-3x text-warning mb-3"></i><h6 class="text-dark fw-bold">Localisation</h6><span class="text-muted">Constantine, Algérie</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p class="mb-0">© 2024 Nour Elislam Rebahi — Ingénieur en Génie Civil. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <!-- Admin Button -->
+  <button class="admin-toggle" onclick="toggleAdmin()" title="Panneau d'administration"><i class="fas fa-lock"></i></button>
+
+  <!-- Admin Panel -->
+  <div class="admin-panel" id="adminPanel">
+    <span class="close-admin" onclick="toggleAdmin()">&times;</span>
+    <h4 class="mt-3 mb-4 text-center fw-bold text-primary"><i class="fas fa-user-cog me-2"></i>Panneau d'Administration</h4>
+    
+    <!-- Change Profile Image -->
+    <div class="mb-4 p-3 border rounded bg-light">
+      <label class="form-label fw-bold text-primary">1. Changer la photo de profil</label>
+      <input type="file" class="form-control mb-2" id="profileUpload" accept="image/*">
+      <button class="btn btn-primary w-100" onclick="uploadProfile()"><i class="fas fa-upload me-2"></i>Mettre à jour</button>
+    </div>
+    
+    <!-- Add New Post -->
+    <div class="mb-4 p-3 border rounded bg-light">
+      <label class="form-label fw-bold text-primary">2. Ajouter un article / projet</label>
+      <input type="text" class="form-control mb-2" id="postTitle" placeholder="Titre de l'article">
+      <input type="text" class="form-control mb-2" id="postImage" placeholder="Lien de l'image (ex: https://...)">
+      <input type="text" class="form-control mb-2" id="postVideo" placeholder="Lien vidéo YouTube (optionnel)">
+      <textarea class="form-control mb-2" id="postDesc" rows="3" placeholder="Description..."></textarea>
+      <button class="btn btn-success w-100" onclick="addPost()"><i class="fas fa-plus-circle me-2"></i>Publier l'article</button>
+    </div>
+
+    <!-- Export Data -->
+    <div class="mb-4 p-3 border rounded bg-light">
+      <label class="form-label fw-bold text-primary">3. Sauvegarder pour GitHub</label>
+      <p class="small text-muted">Téléchargez ce fichier et ajoutez-le à côté de <strong>index.html</strong> sur GitHub pour publier vos modifications.</p>
+      <button class="btn btn-dark w-100" onclick="exportData()"><i class="fas fa-download me-2"></i>Télécharger data.json</button>
+    </div>
+
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // --- Navbar Scroll Effect ---
+    window.addEventListener('scroll', () => {
+      document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // --- Animations on Scroll ---
+    function reveal() {
+      var reveals = document.querySelectorAll(".reveal");
+      for (var i = 0; i < reveals.length; i++) {
+        var windowHeight = window.innerHeight;
+        var elementTop = reveals[i].getBoundingClientRect().top;
+        var elementVisible = 100;
+        if (elementTop < windowHeight - elementVisible) {
+          reveals[i].classList.add("active");
+        }
+      }
+    }
+    window.addEventListener("scroll", reveal);
+    reveal(); // Trigger on load
+
+    // --- Data Management (LocalStorage) ---
+    const defaultData = {
+      profileImage: "https://via.placeholder.com/250",
+      posts: [
+        {
+          id: 1,
+          title: "Projet City Mall",
+          image: "https://images.unsplash.com/photo-1541888086925-eb196c21d44a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          video: "",
+          desc: "Réalisation du centre commercial City Mall à Constantine en tant que Chef de projet."
+        }
+      ]
+    };
+
+    let siteData = JSON.parse(localStorage.getItem('portfolioData')) || defaultData;
+
+    // --- Render Posts ---
+    function renderPosts() {
+      const container = document.getElementById('blog-container');
+      container.innerHTML = '';
+      
+      siteData.posts.forEach(post => {
+        let videoHTML = '';
+        if(post.video) {
+          let videoId = post.video.split('v=')[1] || post.video.split('be/')[1];
+          if(videoId) {
+            videoHTML = `
+              <div class="ratio ratio-16x9 mt-3 rounded shadow-sm">
+                <iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
+              </div>`;
+          }
+        }
+
+        container.innerHTML += `
+          <div class="col-md-6 col-lg-4 reveal active">
+            <div class="card h-100">
+              <img src="${post.image || 'https://via.placeholder.com/400x200'}" class="card-img-top blog-img" alt="${post.title}">
+              <div class="card-body">
+                <h5 class="card-title text-primary fw-bold">${post.title}</h5>
+                <p class="card-text text-muted small">${post.desc}</p>
+                ${videoHTML}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // --- Load Profile Image ---
+    function loadProfileImage() {
+      document.getElementById('profile-img').src = siteData.profileImage;
+    }
+
+    // --- Admin Panel ---
+    function toggleAdmin() {
+      document.getElementById('adminPanel').classList.toggle('active');
+    }
+
+    function uploadProfile() {
+      const fileInput = document.getElementById('profileUpload');
+      if (!fileInput.files[0]) return alert("Veuillez choisir une image.");
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        siteData.profileImage = e.target.result;
+        saveData();
+        loadProfileImage();
+        alert("Photo de profil mise à jour ! N'oubliez pas de télécharger data.json.");
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    }
+
+    function addPost() {
+      const title = document.getElementById('postTitle').value;
+      const image = document.getElementById('postImage').value;
+      const video = document.getElementById('postVideo').value;
+      const desc = document.getElementById('postDesc').value;
+
+      if (!title) return alert("Le titre est obligatoire.");
+
+      siteData.posts.unshift({ id: Date.now(), title, image, video, desc });
+      saveData();
+      renderPosts();
+      
+      document.getElementById('postTitle').value = '';
+      document.getElementById('postImage').value = '';
+      document.getElementById('postVideo').value = '';
+      document.getElementById('postDesc').value = '';
+      alert("Article publié avec succès ! N'oubliez pas de télécharger data.json.");
+    }
+
+    function saveData() {
+      localStorage.setItem('portfolioData', JSON.stringify(siteData));
+    }
+
+    // --- Export Data ---
+    function exportData() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(siteData));
+      const downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute("href", dataStr);
+      downloadAnchorNode.setAttribute("download", "data.json");
+      document.body.appendChild(downloadAnchorNode);
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+      alert("Fichier data.json téléchargé. Placez-le à côté de index.html sur GitHub !");
+    }
+
+    // --- Initial Load ---
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+        siteData = data;
+        saveData();
+        renderPosts();
+        loadProfileImage();
+      })
+      .catch(() => {
+        renderPosts();
+        loadProfileImage();
+      });
+
+  </script>
+</body>
+</html>
